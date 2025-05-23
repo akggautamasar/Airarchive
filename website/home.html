@@ -2,101 +2,157 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Home Page</title>
-  <link rel="stylesheet" href="home.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TG Drive</title>
+    <link rel="stylesheet" href="static/home.css" />
+
+    <!-- Fonts Start -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet" />
+    <!-- Fonts End -->
 </head>
 
 <body>
-  <div class="container">
+    <div class="container">
+        <!-- Sidebar Start -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_48dp.png" />
+                <span>TG Drive</span>
+            </div>
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <img src="assets/logo.png" alt="Logo" />
-        <span>My App</span>
-      </div>
+            <button id="new-button" class="new-button">
+                <img src="static/assets/plus-icon.svg" />New
+            </button>
 
-      <button class="new-button">
-        <img src="assets/icons/plus.svg" alt="New" />
-        New Item
-      </button>
-
-      <nav class="sidebar-menu">
-        <a href="#" class="selected-item">
-          <img src="assets/icons/home.svg" alt="Home" />
-          Home
-        </a>
-        <a href="#" class="unselected-item">
-          <img src="assets/icons/folder.svg" alt="Files" />
-          Files
-        </a>
-        <a href="#" class="unselected-item">
-          <img src="assets/icons/settings.svg" alt="Settings" />
-          Settings
-        </a>
-      </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-      <header class="header">
-        <form id="search-form">
-          <div class="search-bar">
-            <img src="assets/icons/search.svg" alt="Search" />
-            <input type="text" placeholder="Search files..." />
-          </div>
-        </form>
-        <button class="new-button">
-          <img src="assets/icons/plus.svg" alt="New" />
-          New File
-        </button>
-      </header>
-
-      <section class="directory">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Modified</th>
-              <th>More</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="body-tr">
-              <td class="td-align">
-                <img src="assets/icons/folder.svg" alt="Folder" />
-                Documents
-              </td>
-              <td>Folder</td>
-              <td>May 23, 2025</td>
-              <td>
-                <div class="more-btn">
-                  <img src="assets/icons/more.svg" alt="More" />
+            <div id="new-upload" class="new-upload">
+                <input id="new-upload-focus" type="text"
+                    style="height: 0px; width: 0px; border: none; position: absolute" readonly />
+                <div id="new-folder-btn">
+                    <img src="static/assets/folder-icon.svg" />
+                    New Folder
                 </div>
-              </td>
-            </tr>
-            <tr class="body-tr">
-              <td class="td-align">
-                <img src="assets/icons/file.svg" alt="File" />
-                Resume.pdf
-              </td>
-              <td>PDF File</td>
-              <td>May 20, 2025</td>
-              <td>
-                <div class="more-btn">
-                  <img src="assets/icons/more.svg" alt="More" />
+                <hr />
+                <div id="file-upload-btn">
+                    <img src="static/assets/upload-icon.svg" />
+                    File Upload
                 </div>
-              </td>
-            </tr>
-            <!-- More rows as needed -->
-          </tbody>
-        </table>
-      </section>
-    </main>
-  </div>
+                <input type="file" id="fileInput" style="height: 0px; width: 0px; border: none; position: absolute" />
+                <hr />
+                <div id="url-upload-btn">
+                    <img src="static/assets/link-icon.svg" />
+                    URL Upload
+                </div>
+            </div>
+
+            <div class="sidebar-menu">
+                <a class="selected-item" href="/?path=/"><img src="static/assets/home-icon.svg" />Home</a>
+                <a class="unselected-item" href="/?path=/trash"><img src="static/assets/trash-icon.svg" />Trash</a>
+            </div>
+        </div>
+        <!-- Sidebar End -->
+
+        <div id="bg-blur" class="bg-blur"></div>
+
+        <!-- Create New Folder Start -->
+        <div id="create-new-folder" class="create-new-folder">
+            <span>New Folder</span>
+            <input type="text" id="new-folder-name" placeholder="Enter Folder Name" autocomplete="off" />
+            <div>
+                <button id="new-folder-cancel">Cancel</button>
+                <button id="new-folder-create">Create</button>
+            </div>
+        </div>
+        <!-- Create New Folder End -->
+
+        <!-- File / Folder Rename Start -->
+        <div id="rename-file-folder" class="create-new-folder">
+            <span>Edit File/Folder Name</span>
+            <input type="text" id="rename-name" placeholder="Enter File/Folder Name" autocomplete="off" />
+            <div>
+                <button id="rename-cancel">Cancel</button>
+                <button id="rename-create">Rename</button>
+            </div>
+        </div>
+        <!-- File / Folder Rename End -->
+
+        <!-- Remote Upload Start -->
+        <div id="new-url-upload" class="create-new-folder">
+            <span>Url Upload</span>
+            <input type="text" id="remote-url" placeholder="Enter Direct Download Link Of File" autocomplete="off" />
+            <div id="single-threaded-div">
+                <input type="checkbox" name="single-threaded-toggle" id="single-threaded-toggle">
+                <label for="single-threaded-toggle">Single Threaded</label>
+                <a href="#"><img src="static/assets/info-icon-small.svg" alt="Info"></a>
+            </div>
+            <div>
+                <button id="remote-cancel">Cancel</button>
+                <button id="remote-start">Upload</button>
+            </div>
+        </div>
+        <!-- Remote Upload End -->
+
+        <!-- Get Password Start -->
+        <div id="get-password" class="create-new-folder">
+            <span>Admin Login</span>
+            <input type="text" id="auth-pass" placeholder="Enter Password" autocomplete="off" />
+            <div>
+                <button id="pass-login">Login</button>
+            </div>
+        </div>
+        <!-- Get Password End -->
+
+        <!-- File Uploader Start -->
+        <div id="file-uploader" class="file-uploader">
+            <span class="upload-head">🚀 Uploading File...</span>
+            <span id="upload-filename" class="upload-info">Filename : </span>
+            <span id="upload-filesize" class="upload-info">Filesize :</span>
+            <span id="upload-status" class="upload-info">Status : </span>
+            <span id="upload-percent" class="upload-info">Progress : </span>
+            <div class="progress">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="btn-div">
+                <button id="cancel-file-upload">Cancel Upload</button>
+            </div>
+        </div>
+        <!-- File Uploader End -->
+
+        <!-- Main Content Start -->
+        <div class="main-content">
+            <div class="header">
+                <div class="search-bar">
+                    <img src="static/assets/search-icon.svg" />
+                    <form id="search-form">
+                        <input id="file-search" type="text" placeholder="Search in Drive" autocomplete="off" />
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="directory">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>File Size</th>
+                            <th>More</th>
+                        </tr>
+                    </thead>
+                    <tbody id="directory-data"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="static/js/extra.js"></script>
+    <script src="static/js/apiHandler.js"></script>
+    <script src="static/js/sidebar.js"></script>
+    <script src="static/js/fileClickHandler.js"></script>
+    <script src="static/js/main.js"></script>
 </body>
 
 </html>
