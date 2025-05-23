@@ -20,7 +20,7 @@ You can use this bot to upload files to your TG Drive website directly instead o
 Read more about [TG Drive's Bot Mode](https://github.com/TechShreyash/TGDrive#tg-drives-bot-mode)
 """
 
-SET_FOLDER_PATH_CACHE = {}  # Cache to store folder path for each folder id
+SET_FOLDER_PATH_CACHE = {}
 DRIVE_DATA = None
 BOT_MODE = None
 
@@ -72,7 +72,6 @@ async def set_folder_handler(client: Client, message: Message):
         folder_name = folder_name.text.strip()
         search_result = DRIVE_DATA.search_file_folder(folder_name)
 
-        # Get folders from search result
         folders = {}
         for item in search_result.values():
             if item.type == "folder":
@@ -142,7 +141,6 @@ async def current_folder_handler(client: Client, message: Message):
     await message.reply_text(f"Current Folder: {BOT_MODE.current_folder_name}")
 
 
-# Handling when any file is sent to the bot
 @main_bot.on_message(
     filters.private
     & filters.user(config.TELEGRAM_ADMIN_IDS)
@@ -190,8 +188,23 @@ async def start_bot_mode(d, b):
     logger.info("Starting Main Bot")
     await main_bot.start()
 
+    # Set default folder to "Airdrive"
+    default_folder_name = "Airdrive"
+    search_result = DRIVE_DATA.search_file_folder(default_folder_name)
+
+    for item in search_result.values():
+        if item.type == "folder":
+            path = item.path.strip("/")
+            folder_path = "/" + ("/" + path + "/" + item.id).strip("/")
+            BOT_MODE.set_folder(folder_path, item.name)
+            logger.info(f"Default folder set to: {item.name} -> {folder_path}")
+            break
+    else:
+        logger.warning(f"No folder found with name '{default_folder_name}'")
+
     await main_bot.send_message(
-        config.STORAGE_CHANNEL, "Main Bot Started -> TG Drive's Bot Mode Enabled"
+        config.STORAGE_CHANNEL,
+        "Main Bot Started -> TG Drive's Bot Mode Enabled with default folder Airdrive",
     )
     logger.info("Main Bot Started")
-    logger.info("TG Drive's Bot Mode Enabled")
+    logger.info("TG Drive's Bot Mode Enabled with default folder Airdrive")
