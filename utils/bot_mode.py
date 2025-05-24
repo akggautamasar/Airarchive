@@ -188,8 +188,8 @@ async def start_bot_mode(d, b):
     logger.info("Starting Main Bot")
     await main_bot.start()
 
-    # Set default folder to "Airdrive"
-    default_folder_name = "Airdrive"
+    # Set default folder to "TXT"
+    default_folder_name = "TXT"
     search_result = DRIVE_DATA.search_file_folder(default_folder_name)
 
     for item in search_result.values():
@@ -204,7 +204,7 @@ async def start_bot_mode(d, b):
 
     await main_bot.send_message(
         config.STORAGE_CHANNEL,
-        "Main Bot Started -> TG Drive's Bot Mode Enabled with default folder Airdrive",
+        "Main Bot Started -> TG Drive's Bot Mode Enabled with default folder TXT",
     )
     logger.info("Main Bot Started")
-    logger.info("TG Drive's Bot Mode Enabled with default folder Airdrive")
+    logger.info("TG Drive's Bot Mode Enabled with default folder TXT")
